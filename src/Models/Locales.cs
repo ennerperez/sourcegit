@@ -9,6 +9,7 @@ namespace SourceGit.Models
 
         public static List<Locale> Supported = new List<Locale>() {
             new Locale("English", "en_US"),
+            new Locale("Español", "es_ES"),
             new Locale("简体中文", "zh_CN"),
         };
 
