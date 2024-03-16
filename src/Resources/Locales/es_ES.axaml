@@ -98,7 +98,7 @@
   <sys:String x:Key="Text.CommitDetail.Changes.Search">Buscar Archivos ...</sys:String>
   <sys:String x:Key="Text.CommitDetail.Files">ARCHIVOS</sys:String>
   <sys:String x:Key="Text.CommitDetail.Files.LFS">Archivo LFS</sys:String>
-  <sys:String x:Key="Text.CommitDetail.Files.Submodule">Submodul</sys:String>
+  <sys:String x:Key="Text.CommitDetail.Files.Submodule">Submodulo</sys:String>
   <sys:String x:Key="Text.CommitDetail.Files.Tag">Etiqueta</sys:String>
   <sys:String x:Key="Text.CommitDetail.Files.Tree">Arbol</sys:String>
 
@@ -110,21 +110,21 @@
   <sys:String x:Key="Text.Configure.Proxy">Proxy HTTP</sys:String>
   <sys:String x:Key="Text.Configure.Proxy.Placeholder">Proxy HTTP para este repositorio</sys:String>
 
-  <sys:String x:Key="Text.CreateBranch">Create Branch</sys:String>
-  <sys:String x:Key="Text.CreateBranch.Title">Create Local Branch</sys:String>
-  <sys:String x:Key="Text.CreateBranch.BasedOn">Based On :</sys:String>
-  <sys:String x:Key="Text.CreateBranch.Name">New Branch Name :</sys:String>
-  <sys:String x:Key="Text.CreateBranch.Name.Placeholder">Enter branch name.</sys:String>
-  <sys:String x:Key="Text.CreateBranch.LocalChanges">Local Changes :</sys:String>
+  <sys:String x:Key="Text.CreateBranch">Crear Rama</sys:String>
+  <sys:String x:Key="Text.CreateBranch.Title">Crear Rama Local</sys:String>
+  <sys:String x:Key="Text.CreateBranch.BasedOn">Basada enm :</sys:String>
+  <sys:String x:Key="Text.CreateBranch.Name">Nombre de la Nueva Rama :</sys:String>
+  <sys:String x:Key="Text.CreateBranch.Name.Placeholder">Ingrese el nombre de la rama.</sys:String>
+  <sys:String x:Key="Text.CreateBranch.LocalChanges">Cambios Locales :</sys:String>
   <sys:String x:Key="Text.CreateBranch.LocalChanges.StashAndReply">Stash &amp; Reapply</sys:String>
-  <sys:String x:Key="Text.CreateBranch.LocalChanges.Discard">Discard</sys:String>
+  <sys:String x:Key="Text.CreateBranch.LocalChanges.Discard">Descartar</sys:String>
   <sys:String x:Key="Text.CreateBranch.Checkout">Check out after created</sys:String>
 
-  <sys:String x:Key="Text.CreateTag">Create Tag</sys:String>
-  <sys:String x:Key="Text.CreateTag.BasedOn">New Tag At :</sys:String>
-  <sys:String x:Key="Text.CreateTag.Name">Tag Name :</sys:String>
-  <sys:String x:Key="Text.CreateTag.Name.Placeholder">Recommended format ：v1.0.0-alpha</sys:String>
-  <sys:String x:Key="Text.CreateTag.Message">Tag Message :</sys:String>
+  <sys:String x:Key="Text.CreateTag">Crear Etiqueta</sys:String>
+  <sys:String x:Key="Text.CreateTag.BasedOn">Nueva Etiqueta en :</sys:String>
+  <sys:String x:Key="Text.CreateTag.Name">Nombre :</sys:String>
+  <sys:String x:Key="Text.CreateTag.Name.Placeholder">Formato Recomendado ：v1.0.0-alpha</sys:String>
+  <sys:String x:Key="Text.CreateTag.Message">Mensaje :</sys:String>
   <sys:String x:Key="Text.CreateTag.Message.Placeholder">Optional.</sys:String>
 
   <sys:String x:Key="Text.Repository.Explore">Open In File Browser</sys:String>
