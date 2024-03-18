@@ -53,5 +53,16 @@
       <DependentUpon>Locales.resx</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
+ 
+  <ItemGroup Condition="$(Configuration) == 'Debug'">
+    <None Include="$(AppData)\SourceGit\*.log">
+        <Link>Logs\%(Filename)%(Extension)</Link>
+    </None>
+  </ItemGroup>
+  <ItemGroup Condition="$(Configuration) == 'Debug' AND Exists('$(AppData)\SourceGit\preference.json')">
+    <None Include="$(AppData)\SourceGit\preference.json">
+       <Link>%(Filename)%(Extension)</Link>
+    </None>
+  </ItemGroup>
   
 </Project>
