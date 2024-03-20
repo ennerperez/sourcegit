@@ -1,9 +1,16 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
+using System.Reflection;
+using System.Threading;
 
+using Avalonia;
 using Avalonia.Collections;
+using Avalonia.Threading;
 
 using CommunityToolkit.Mvvm.ComponentModel;
+
+using SourceGit.Services;
 
 namespace SourceGit.ViewModels
 {
@@ -31,6 +38,30 @@ namespace SourceGit.ViewModels
         {
             Pages = new AvaloniaList<LauncherPage>();
             AddNewTab();
+
+            var updater = new GitHubUpdaterService();
+            updater.NewVersionAvailable += (sender, release) =>
+            {
+                if (Application.Current is App app)
+                {
+                    var message = string.Format(Resources.Locales.Text_Update_NewVersion, release.GetVersion().ToString());
+                    App.SendNotification(String.Empty, message, Resources.Locales.Text_Update, (e) =>
+                    {
+                        if (e == Resources.Locales.Text_Update)
+                        {
+                            if (OperatingSystem.IsWindows() && File.Exists("Updater.exe")) Process.Start("Updater.exe");
+                            else Process.Start(release.Url);
+                            //TODO: macOS & Linux
+                            App.Quit();
+                        }
+                    });
+                }
+            };
+
+            Dispatcher.UIThread.Invoke(async () =>
+            {
+                await updater.CheckForUpdateAsync();
+            });
 
             if (Preference.Instance.RestoreTabs)
             {
