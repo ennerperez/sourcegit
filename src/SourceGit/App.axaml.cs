@@ -14,6 +14,8 @@ using Avalonia.Media;
 using Avalonia.Media.Fonts;
 using Avalonia.Styling;
 
+using SourceGit.Services;
+
 namespace SourceGit
 {
     public partial class App : Application
@@ -74,11 +76,11 @@ namespace SourceGit
             }
         }
 
-        public static void SendNotification(string context, string message)
+        public static void SendNotification(string context, string message, string action = "", Action<string> callback = null)
         {
             if (Current is App app && app._notificationReceiver != null)
             {
-                var notice = new Models.Notification() { IsError = false, Message = message };
+                var notice = new Models.Notification() { IsError = false, Message = message, Action = action, Callback = callback};
                 app._notificationReceiver.OnReceiveNotification(context, notice);
             }
         }

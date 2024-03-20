@@ -70,5 +70,32 @@ namespace SourceGit.Converters
 
         public static FuncValueConverter<string, string> ToShortSHA =
             new FuncValueConverter<string, string>(v => v.Length > 10 ? v.Substring(0, 10) : v);
+ 
+        public static IsNullOrEmptyConverter IsNullOrEmpty = new IsNullOrEmptyConverter();
+        public class IsNullOrEmptyConverter : IValueConverter
+        {
+            public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+            {
+                return string.IsNullOrWhiteSpace(value.ToString());
+            }
+
+            public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+            {
+                throw new NotImplementedException();
+            }
+        }
+        public static NotIsNullOrEmptyConverter NotIsNullOrEmpty = new NotIsNullOrEmptyConverter();
+        public class NotIsNullOrEmptyConverter : IValueConverter
+        {
+            public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+            {
+                return !string.IsNullOrWhiteSpace(value.ToString());
+            }
+
+            public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+            {
+                throw new NotImplementedException();
+            }
+        }
     }
 }

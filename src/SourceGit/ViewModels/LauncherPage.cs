@@ -2,6 +2,8 @@
 
 using Avalonia.Collections;
 
+using SourceGit.Models;
+
 namespace SourceGit.ViewModels
 {
     public class LauncherPage : PopupHost
@@ -34,6 +36,9 @@ namespace SourceGit.ViewModels
                 IsRepository = false,
             };
             _data = new Welcome();
+// #if DEBUG
+//             Notifications = new AvaloniaList<Models.Notification>() { new Notification() { Action = "%ACTION%", IsError = false, Message = "%MESSAGE%" } };
+// #endif
         }
 
         public LauncherPage(RepositoryNode node, Repository repo)
@@ -56,6 +61,15 @@ namespace SourceGit.ViewModels
         {
             if (param is Models.Notification notice)
             {
+                notice.OnDismiss();
+                Notifications.Remove(notice);
+            }
+        }
+        public void ActivateNotification(object param)
+        {
+            if (param is Models.Notification notice)
+            {
+                notice.OnActivate(notice.Action);
                 Notifications.Remove(notice);
             }
         }

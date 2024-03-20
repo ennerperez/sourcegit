@@ -320,7 +320,7 @@
               <Grid Width="320" Margin="8">
                 <Border Background="{DynamicResource Brush.Window}" BorderBrush="{DynamicResource Brush.Border0}" BorderThickness="1" CornerRadius="4" Effect="drop-shadow(0 0 8 #40000000)"/>
 
-                <Grid Margin="8" RowDefinitions="26,Auto,Auto">
+                <Grid Margin="8" RowDefinitions="26,Auto,Auto" ColumnDefinitions="*,Auto">
                   <StackPanel Grid.Row="0" Margin="8,0,0,0" Orientation="Horizontal" IsVisible="{Binding IsError}">
                     <Path Width="14" Height="14" Data="{StaticResource Icons.Error}" Fill="Red"/>
                     <TextBlock Margin="8,0,0,0" FontWeight="Bold" FontSize="14" Text="{DynamicResource Text.Launcher.Error}"/>
@@ -339,7 +339,19 @@
                            Margin="8" Padding="0"
                            VerticalContentAlignment="Top"
                            Text="{Binding Message}"/>
-                  <Button Grid.Row="3"
+                  <Button Grid.Row="3" Grid.Column="0"
+                          Classes="flat primary"
+                          Height="30"
+                          Margin="4,0"
+                          Command="{Binding #me.DataContext.(vm:Launcher).ActivePage.ActivateNotification}"
+                          CommandParameter="{Binding}"
+                          Content="{Binding Action}"
+                          IsVisible="{Binding Action, Converter={x:Static c:StringConverters.NotIsNullOrEmpty}}"
+                          TextElement.FontSize="12"
+                          HorizontalAlignment="Right"
+                          HorizontalContentAlignment="Center"
+                          VerticalContentAlignment="Center"/>
+                  <Button Grid.Row="3" Grid.Column="1"
                           Classes="flat primary"
                           Height="30"
                           Margin="4,0"
