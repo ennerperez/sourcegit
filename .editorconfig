@@ -29,6 +29,10 @@ dotnet_separate_import_directive_groups = true
 dotnet_sort_system_directives_first = true
 file_header_template = unset
 
+# Atributes
+place_attribute_on_same_line = false
+csharp_place_field_attribute_on_same_line = false
+
 # Namespaces
 dotnet_style_namespace_match_folder = true:suggestion
 csharp_style_namespace_declarations = block_scoped:error
