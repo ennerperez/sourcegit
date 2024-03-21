@@ -19,17 +19,37 @@ namespace Updater
     {
         private static async Task Main(string[] args)
         {
-            Console.WriteLine("SourceGit Updater");
-            Console.WriteLine("");
-            var instances = Process.GetProcessesByName(Name);
-            if (instances.Any())
-                foreach (var instance in instances)
-                    instance.Kill();
-            if (!await Update(args) || !File.Exists("SourceGit.exe"))
-                return;
-            Console.WriteLine("Restarting SourceGit...");
-            await Task.Delay(5000);
-            Start();
+#if DEBUG
+            args = new[] { Directory.GetCurrentDirectory() };
+#endif
+            if (args.Any())
+            {
+                Console.WriteLine("SourceGit Updater");
+                var instances = Process.GetProcessesByName(Name);
+                if (instances.Any())
+                    foreach (var instance in instances)
+                        instance.Kill();
+                if (!await Update(args) || !File.Exists("SourceGit.exe"))
+                    return;
+                Console.WriteLine("Restarting SourceGit...");
+                await Task.Delay(5000);
+                Start(args[0]);
+            }
+            else
+            {
+                var tempDir = Path.GetTempPath();
+                File.Copy("Updater.exe", Path.Combine(tempDir, "Updater.exe"), true);
+#if DEBUG
+                var files = new[] { "Updater.dll", "Updater.deps.json", "Updater.runtimeconfig.json" };
+                var _ = files.Select(m => new FileInfo(m))
+                    .All(m =>
+                    {
+                        m.CopyTo(Path.Combine(tempDir, m.Name), true);
+                        return true;
+                    });
+#endif
+                Process.Start(new ProcessStartInfo(Path.Combine(tempDir, "Updater.exe")) { Arguments = Directory.GetCurrentDirectory() });
+            }
         }
 
         private static Assembly Assembly => Assembly.GetExecutingAssembly();
@@ -85,13 +105,15 @@ namespace Updater
                             using (var fs = new FileStream(tempFileName, FileMode.Open))
                             {
                                 ZipFile.ExtractToDirectory(fs, tempPath, overwriteFiles: true);
-                                var cd = new DirectoryInfo(Directory.GetCurrentDirectory());
+                                //var cd = new DirectoryInfo(Directory.GetCurrentDirectory());
+                                var cd = new DirectoryInfo(args[0]);
                                 var td = new DirectoryInfo(Path.Combine(tempPath, Name));
-                                var _ = td.GetFiles().All(m =>
+                                var result = td.GetFiles().All(m =>
                                 {
                                     m.MoveTo(Path.Combine(cd.FullName, m.Name), true);
                                     return true;
                                 });
+                                return result;
                             }
                         }
                     }
