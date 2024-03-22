@@ -5,6 +5,9 @@
         <SuppressTrimAnalysisWarnings>true</SuppressTrimAnalysisWarnings>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-      <OutputPath>..\SourceGit\bin\Debug\</OutputPath>
+        <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+        <OutputPath Condition="$([MSBuild]::IsOSPlatform('Windows'))">..\SourceGit\bin\Debug\net8.0\</OutputPath>
+        <OutputPath Condition="$([MSBuild]::IsOSPlatform('MacOS'))">../SourceGit/bin/Debug/net8.0/Contents/MacOS/</OutputPath>
+        <OutputPath Condition="$([MSBuild]::IsOSPlatform('Linux'))">../SourceGit/bin/Debug/net8.0/</OutputPath>
     </PropertyGroup>
 </Project>
