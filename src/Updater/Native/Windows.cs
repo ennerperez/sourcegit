@@ -38,7 +38,7 @@ namespace Updater.Native
             }
             else
             {
-                var tempDir = String.Empty;
+                string tempDir;
 
                 tempDir = Path.GetTempPath();
                 File.Copy("Updater.exe", Path.Combine(tempDir, "Updater.exe"), true);
@@ -64,10 +64,8 @@ namespace Updater.Native
                 await Program.GetLatestReleaseAsync();
 
                 var assetName = Program.AssetName;
-                var os = ".win";
 
-
-                if (string.IsNullOrEmpty(assetName)) assetName = $"{Program.Name}{os}.zip";
+                if (string.IsNullOrEmpty(assetName)) assetName = $"{Program.Name}.win.zip";
 
                 var assetUrl = Program.LatestRelease.Assets.FirstOrDefault(m => m.Name == assetName);
                 var url = Program.LatestRelease.AssetsUrl;
