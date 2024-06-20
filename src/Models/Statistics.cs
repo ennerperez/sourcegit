@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace SourceGit.Models
 {
@@ -7,6 +8,7 @@ namespace SourceGit.Models
     {
         public string Name { get; set; }
         public int Count { get; set; }
+        public double Percent { get; set; }
     }
 
     public class StatisticsReport
@@ -35,6 +37,17 @@ namespace SourceGit.Models
         public void Complete()
         {
             ByCommitter.Sort((l, r) => r.Count - l.Count);
+            
+            var total = 0;
+            foreach (var s in ByCommitter)
+            {
+                total += s.Count;
+            }
+            foreach (var s in ByCommitter)
+            {
+                s.Percent = (s.Count * 100.00) / total;
+            }
+
             _mapByCommitter.Clear();
         }
 
@@ -54,28 +67,14 @@ namespace SourceGit.Models
             _thisWeekStart = _today.AddSeconds(-(int)_today.DayOfWeek * 3600 * 24 - _today.Hour * 3600 - _today.Minute * 60 - _today.Second);
             _thisWeekEnd = _thisWeekStart.AddDays(7);
 
-            string[] monthNames = [
-                "Jan",
-                "Feb",
-                "Mar",
-                "Apr",
-                "May",
-                "Jun",
-                "Jul",
-                "Aug",
-                "Sep",
-                "Oct",
-                "Nov",
-                "Dec",
-            ];
+            string[] monthNames = System.Globalization.DateTimeFormatInfo.CurrentInfo.AbbreviatedMonthNames;
 
             for (int i = 0; i < monthNames.Length; i++)
             {
-                Year.Samples.Add(new StatisticsSample
+                if (!string.IsNullOrWhiteSpace(monthNames[i]))
                 {
-                    Name = monthNames[i],
-                    Count = 0,
-                });
+                    Year.Samples.Add(new StatisticsSample { Name = monthNames[i].ToUpperInvariant(), Count = 0, });
+                }
             }
 
             var monthDays = DateTime.DaysInMonth(_today.Year, _today.Month);
@@ -88,21 +87,13 @@ namespace SourceGit.Models
                 });
             }
 
-            string[] weekDayNames = [
-                "SUN",
-                "MON",
-                "TUE",
-                "WED",
-                "THU",
-                "FRI",
-                "SAT",
-            ];
+            string[] weekDayNames = System.Globalization.DateTimeFormatInfo.CurrentInfo.AbbreviatedDayNames;
 
             for (int i = 0; i < weekDayNames.Length; i++)
             {
                 Week.Samples.Add(new StatisticsSample
                 {
-                    Name = weekDayNames[i],
+                    Name = weekDayNames[i].ToUpperInvariant(),
                     Count = 0,
                 });
             }

@@ -472,6 +472,7 @@
   <x:String x:Key="Text.Statistics" xml:space="preserve">Statistics</x:String>
   <x:String x:Key="Text.Statistics.CommitAmount" xml:space="preserve">COMMITS</x:String>
   <x:String x:Key="Text.Statistics.Committer" xml:space="preserve">COMMITTER</x:String>
+  <x:String x:Key="Text.Statistics.Percent" xml:space="preserve">%</x:String>
   <x:String x:Key="Text.Statistics.ThisMonth" xml:space="preserve">MONTH</x:String>
   <x:String x:Key="Text.Statistics.ThisWeek" xml:space="preserve">WEEK</x:String>
   <x:String x:Key="Text.Statistics.ThisYear" xml:space="preserve">YEAR</x:String>

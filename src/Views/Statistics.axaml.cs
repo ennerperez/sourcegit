@@ -237,5 +237,14 @@ namespace SourceGit.Views
         {
             Close();
         }
+
+        private void OnResized(object sender, WindowResizedEventArgs e)
+        {
+        }
+
+        private void DatePicker_OnSelectedDateChanged(object sender, DatePickerSelectedValueChangedEventArgs e)
+        {
+            (DataContext as ViewModels.Statistics).LoadReport();
+        }
     }
 }

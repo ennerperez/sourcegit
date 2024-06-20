@@ -9,9 +9,9 @@
                     x:Class="SourceGit.Views.Statistics"
                     x:DataType="vm:Statistics"
                     Title="{DynamicResource Text.Statistics}"
-                    Width="800" Height="450"
+                    Resized="OnResized"
                     WindowStartupLocation="CenterOwner"
-                    CanResize="False">
+                    CanResize="True">
   <Grid RowDefinitions="Auto,Auto,*">
     <!-- Title bar -->
     <Grid Grid.Row="0" ColumnDefinitions="Auto,*,Auto" Height="30">
@@ -50,75 +50,24 @@
     </Grid>
 
     <!-- View mode switcher -->
-    <ListBox Grid.Row="1"
-             Margin="0,8"
-             SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}"
-             HorizontalAlignment="Center"
-             VerticalAlignment="Center"
-             Background="Transparent">
-      <ListBox.ItemsPanel>
-        <ItemsPanelTemplate>
-          <StackPanel Orientation="Horizontal"/>
-        </ItemsPanelTemplate>
-      </ListBox.ItemsPanel>
-
-      <ListBox.Styles>
-        <Style Selector="ListBoxItem">
-          <Setter Property="Padding" Value="0"/>
-          <Setter Property="Background" Value="Transparent"/>
-        </Style>
-
-        <Style Selector="ListBoxItem:pointerover /template/ ContentPresenter#PART_ContentPresenter">
-          <Setter Property="Background" Value="Transparent"/>
-        </Style>
-
-        <Style Selector="ListBoxItem:selected /template/ ContentPresenter#PART_ContentPresenter">
-          <Setter Property="Background" Value="Transparent"/>
-        </Style>
-
-        <Style Selector="ListBoxItem Border.switcher_bg">
-          <Setter Property="BorderBrush" Value="{DynamicResource Brush.Border2}"/>
-        </Style>
-
-        <Style Selector="ListBoxItem:selected Border.switcher_bg">
-          <Setter Property="Background" Value="{DynamicResource Brush.Accent}"/>
-          <Setter Property="BorderBrush" Value="{DynamicResource Brush.Accent}"/>
-        </Style>
-
-        <Style Selector="TextBlock.view_mode_switcher">
-          <Setter Property="FontWeight" Value="Bold"/>
-          <Setter Property="Foreground" Value="{DynamicResource Brush.FG2}"/>
-        </Style>
-
-        <Style Selector="ListBoxItem:selected TextBlock.view_mode_switcher">
-          <Setter Property="Foreground" Value="White"/>
-        </Style>
-      </ListBox.Styles>
-
-      <ListBoxItem>
-        <Border Classes="switcher_bg" Height="28" Padding="16,0" BorderThickness="1,1,0,1" CornerRadius="14,0,0,14">
-          <TextBlock Classes="view_mode_switcher" Text="{DynamicResource Text.Statistics.ThisYear}"/>
-        </Border>
-      </ListBoxItem>
-
-      <ListBoxItem>
-        <Border Classes="switcher_bg" Height="28" Padding="16,0" BorderThickness="1">
-          <TextBlock Classes="view_mode_switcher" Text="{DynamicResource Text.Statistics.ThisMonth}"/>
-        </Border>
-      </ListBoxItem>
-
-      <ListBoxItem>
-        <Border Classes="switcher_bg" Height="28" Padding="16,0" BorderThickness="0,1,1,1" CornerRadius="0,14,14,0">
-          <TextBlock Classes="view_mode_switcher" Text="{DynamicResource Text.Statistics.ThisWeek}"/>
-        </Border>
-      </ListBoxItem>
-    </ListBox>
-
+    <Grid Grid.Row="1" ColumnDefinitions="*,Auto,Auto,Auto,Auto" Margin="8,8" >
+      <TextBlock Grid.Row="0" Grid.Column="1"
+                 Text="Since"
+                 HorizontalAlignment="Right"
+                 Margin="8,0,8,0"/>
+      <DatePicker Grid.Row="0" Grid.Column="2" SelectedDate="{Binding Since}" SelectedDateChanged="DatePicker_OnSelectedDateChanged" />
+      <TextBlock Grid.Row="0" Grid.Column="3"
+                 Text="Until"
+                 HorizontalAlignment="Right"
+                 Margin="8,0,8,0"/>
+      <DatePicker Grid.Row="0" Grid.Column="4" SelectedDate="{Binding Until}" SelectedDateChanged="DatePicker_OnSelectedDateChanged" />
+    </Grid>
+    
     <!-- Contents -->
     <ContentControl Grid.Row="2" Content="{Binding SelectedReport, Mode=OneWay}">
       <ContentControl.DataTemplates>
         <DataTemplate DataType="m:StatisticsReport">
-          <Grid ColumnDefinitions="256,*" Margin="8,8,8,16">
+          <Grid ColumnDefinitions="400,*" Margin="8,8,8,16">
             <Grid Grid.Column="0" RowDefinitions="*,16">
               <!-- Table By Committer -->
               <DataGrid Grid.Row="0"
@@ -159,6 +108,7 @@
                 <DataGrid.Columns>
                   <DataGridTextColumn Width="150" Header="{DynamicResource Text.Statistics.Committer}" Binding="{Binding Name}"/>
                   <DataGridTextColumn Width="*" Header="{DynamicResource Text.Statistics.CommitAmount}" Binding="{Binding Count}"/>
+                  <DataGridTextColumn Width="*" Header="{DynamicResource Text.Statistics.Percent}" Binding="{Binding Percent, StringFormat=N2}"/>
                 </DataGrid.Columns>
               </DataGrid>
 

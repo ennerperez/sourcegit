@@ -4,13 +4,24 @@ namespace SourceGit.Commands
 {
     public class Statistics : Command
     {
-        public Statistics(string repo)
+        public Statistics(string repo, DateTimeOffset? since = null, DateTimeOffset? until = null)
         {
             _statistics = new Models.Statistics();
 
+            var sinceArg = string.Empty;
+            if (since != null)
+            {
+                sinceArg = $"--since=\"{since.Value.ToString("yyyy-MM-dd 00:00:00")}\"";
+            }
+            var untilArg = string.Empty;
+            if (until != null)
+            {
+                untilArg = $"--until=\"{until.Value.ToString("yyyy-MM-dd 00:00:00")}\"";
+            }
+
             WorkingDirectory = repo;
             Context = repo;
-            Args = $"log --date-order --branches --remotes --since=\"{_statistics.Since()}\" --pretty=format:\"%ct$%cn\"";
+            Args = $"log --date-order --branches --remotes {sinceArg} {untilArg} --pretty=format:\"%ct$%cn\""; 
         }
 
         public Models.Statistics Result()
