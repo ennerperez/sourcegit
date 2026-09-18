@@ -46,10 +46,10 @@ cp -r SourceGit SourceGit.AppDir/opt/sourcegit
 desktop-file-install resources/_common/applications/sourcegit.desktop --dir SourceGit.AppDir/usr/share/applications \
     --set-icon com.sourcegit_scm.SourceGit --set-key=Exec --set-value=AppRun
 mv SourceGit.AppDir/usr/share/applications/{sourcegit,com.sourcegit_scm.SourceGit}.desktop
-cp resources/_common/icons/sourcegit.png SourceGit.AppDir/com.sourcegit_scm.SourceGit.png
+cp -r resources/_common/icons/sourcegit.png SourceGit.AppDir/com.sourcegit_scm.SourceGit.png
 ln -rsf SourceGit.AppDir/opt/sourcegit/sourcegit SourceGit.AppDir/AppRun
 ln -rsf SourceGit.AppDir/usr/share/applications/com.sourcegit_scm.SourceGit.desktop SourceGit.AppDir
-cp resources/appimage/sourcegit.appdata.xml SourceGit.AppDir/usr/share/metainfo/com.sourcegit_scm.SourceGit.appdata.xml
+cp -r resources/appimage/sourcegit.appdata.xml SourceGit.AppDir/usr/share/metainfo/com.sourcegit_scm.SourceGit.appdata.xml
 
 ARCH="$appimage_arch" ./appimagetool -v SourceGit.AppDir "sourcegit-$VERSION.linux.$arch.AppImage"
 
@@ -57,7 +57,7 @@ mkdir -p resources/deb/opt/sourcegit/
 mkdir -p resources/deb/usr/bin
 mkdir -p resources/deb/usr/share/applications
 mkdir -p resources/deb/usr/share/icons
-cp -f SourceGit/* resources/deb/opt/sourcegit
+cp -rf SourceGit/* resources/deb/opt/sourcegit
 ln -rsf resources/deb/opt/sourcegit/sourcegit resources/deb/usr/bin
 cp -r resources/_common/applications resources/deb/usr/share
 cp -r resources/_common/icons resources/deb/usr/share
