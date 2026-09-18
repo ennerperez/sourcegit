@@ -62,9 +62,9 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y llvm gcc-aarch64-linux-gnu
       - name: Build
-        run: dotnet build -c Release
+        run: dotnet build -c Debug
       - name: Publish
-        run: dotnet publish src/SourceGit.csproj -c Release -o publish -r ${{ matrix.runtime }}
+        run: dotnet publish src/SourceGit.csproj -c Debug -o publish -r ${{ matrix.runtime }}
       - name: Rename executable file
         if: startsWith(matrix.runtime, 'linux-')
         run: mv publish/SourceGit publish/sourcegit
