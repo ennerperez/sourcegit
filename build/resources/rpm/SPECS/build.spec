@@ -4,7 +4,7 @@ Release: 1
 Summary: Open-source & Free Git Gui Client
 License: MIT
 URL: https://sourcegit-scm.github.io/
-Source: https://github.com/sourcegit-scm/sourcegit/archive/refs/tags/v%_version.tar.gz
+Source: https://github.com/ennerperez/sourcegit/archive/refs/tags/v%_version.tar.gz
 Requires: libX11.so.6()(%{__isa_bits}bit)
 Requires: libSM.so.6()(%{__isa_bits}bit)
 Requires: libicu

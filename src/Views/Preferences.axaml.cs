@@ -250,7 +250,7 @@ namespace SourceGit.Views
 
         private void OpenThemeRepository(object _, RoutedEventArgs e)
         {
-            Native.OS.OpenBrowser($"https://github.com/sourcegit-scm/sourcegit-theme");
+            Native.OS.OpenBrowser($"https://github.com/ennerperez/sourcegit-theme");
             e.Handled = true;
         }
 

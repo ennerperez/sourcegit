@@ -46,10 +46,10 @@
             <li>Using AI to generate commit message using commitollama</li>
         </ul>
     </description>
-    <url type="bugtracker">https://github.com/sourcegit-scm/sourcegit/issues</url>
-    <url type="help">https://github.com/sourcegit-scm/sourcegit/issues</url>
+    <url type="bugtracker">https://github.com/ennerperez/sourcegit/issues</url>
+    <url type="help">https://github.com/ennerperez/sourcegit/issues</url>
     <url type="homepage">https://sourcegit-scm.github.io</url>
-    <url type="vcs-browser">https://github.com/sourcegit-scm/sourcegit</url>
+    <url type="vcs-browser">https://github.com/ennerperez/sourcegit</url>
     <launchable type="desktop-id">com.sourcegit_scm.SourceGit.desktop</launchable>
     <developer id="io.github">
         <name>sourcegit-scm</name>
