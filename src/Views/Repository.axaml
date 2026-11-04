@@ -12,43 +12,23 @@
              x:Name="ThisControl">  
   <Grid>
     <Grid.ColumnDefinitions>
-      <ColumnDefinition Width="49"/>
+      <ColumnDefinition Width="{Binding Source={x:Static vm:Preferences.Instance}, Path=SidebarIconBarWidth}"/>
       <ColumnDefinition Width="*"/>
     </Grid.ColumnDefinitions>
 
     <!-- Page Switcher -->
-    <Grid Grid.Column="0" Width="49" RowDefinitions="Auto,*,Auto,12">
-      <ListBox Background="Transparent" SelectedIndex="{Binding SelectedViewIndex, Mode=TwoWay}" SelectionMode="AlwaysSelected">
-        <ListBox.Styles>
-          <Style Selector="Path.icon">
-            <Setter Property="Width" Value="18"/>
-            <Setter Property="Height" Value="18"/>
-            <Setter Property="Fill" Value="{DynamicResource Brush.FG1}"/>
-            <Setter Property="HorizontalAlignment" Value="Center"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
-          </Style>
-          <Style Selector="ListBoxItem">
-            <Setter Property="Height" Value="42"/>
-            <Setter Property="Margin" Value="4"/>
-            <Setter Property="Padding" Value="0"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="CornerRadius" Value="4"/>
-          </Style>
-          <Style Selector="ListBoxItem:pointerover /template/ ContentPresenter#PART_ContentPresenter">
-            <Setter Property="Background" Value="#18888888"/>
-          </Style>
-          <Style Selector="ListBoxItem:selected /template/ ContentPresenter#PART_ContentPresenter">
-            <Setter Property="Background" Value="{DynamicResource Brush.AccentHovered}"/>
-          </Style>
-        </ListBox.Styles>
-
-        <ListBox.ItemsPanel>
-          <ItemsPanelTemplate>
-            <StackPanel Orientation="Vertical"/>
-          </ItemsPanelTemplate>
-        </ListBox.ItemsPanel>
-
-        <ListBoxItem ToolTip.Placement="Right">
+    <Grid Grid.Column="0"
+          Width="{Binding Source={x:Static vm:Preferences.Instance}, Path=ToolbarIconBarSize}"
+          RowDefinitions="Auto,Auto,Auto,Auto,*,Auto">
+      <ToggleButton Grid.Row="0"
+                    Classes="toolbar_icon_button sidebar_navigation"
+                    Width="{Binding Source={x:Static vm:Preferences.Instance}, Path=ToolbarIconButtonSize}"
+                    Height="{Binding Source={x:Static vm:Preferences.Instance}, Path=ToolbarIconButtonSize}"
+                    Margin="{Binding Source={x:Static vm:Preferences.Instance}, Path=ToolbarIconButtonMargin}"
+                    HorizontalAlignment="Center"
+                    IsChecked="{Binding IsDashboardVisible, Mode=OneWay}"
+                    Click="OnSelectDashboard"
+                    ToolTip.Placement="Right">
           <ToolTip.Tip>
             <TextBlock>
               <Run Text="{DynamicResource Text.Dashboard}" Foreground="{DynamicResource Brush.FG1}"/>
@@ -56,10 +36,22 @@
               <Run Text="{OnPlatform Ctrl+1, macOS=⌘+1}" FontSize="11" Foreground="{DynamicResource MenuFlyoutItemKeyboardAcceleratorTextForeground}"/>
             </TextBlock>
           </ToolTip.Tip>
-          <Path Classes="icon" Data="{StaticResource Icons.Dashboard}"/>
-        </ListBoxItem>
+          <Path
+                Width="{Binding Source={x:Static vm:Preferences.Instance}, Path=ToolbarIconSize}"
+                Height="{Binding Source={x:Static vm:Preferences.Instance}, Path=ToolbarIconSize}"
+                Data="{StaticResource Icons.Dashboard}"/>
+      </ToggleButton>
 
-        <ListBoxItem IsVisible="{Binding !IsBare}" ToolTip.Placement="Right">
+      <ToggleButton Grid.Row="2"
+                    Classes="toolbar_icon_button sidebar_navigation"
+                    Width="{Binding Source={x:Static vm:Preferences.Instance}, Path=ToolbarIconButtonSize}"
+                    Height="{Binding Source={x:Static vm:Preferences.Instance}, Path=ToolbarIconButtonSize}"
+                    IsVisible="{Binding !IsBare}"
+                    Margin="{Binding Source={x:Static vm:Preferences.Instance}, Path=ToolbarIconButtonMargin}"
+                    HorizontalAlignment="Center"
+                    IsChecked="{Binding IsWorkingCopyVisible, Mode=OneWay}"
+                    Click="OnSelectWorkingCopy"
+                    ToolTip.Placement="Right">
           <ToolTip.Tip>
             <TextBlock>
               <Run Text="{DynamicResource Text.WorkingCopy}" Foreground="{DynamicResource Brush.FG1}"/>
@@ -68,13 +60,41 @@
             </TextBlock>
           </ToolTip.Tip>
           <Grid>
-            <Path Classes="icon" Data="{StaticResource Icons.Changes}"/>
+            <Path
+                  Width="{Binding Source={x:Static vm:Preferences.Instance}, Path=ToolbarIconSize}"
+                  Height="{Binding Source={x:Static vm:Preferences.Instance}, Path=ToolbarIconSize}"
+                  Data="{StaticResource Icons.Changes}"
+                  Fill="{DynamicResource Brush.FG1}">
+              <Path.IsVisible>
+                <MultiBinding Converter="{x:Static BoolConverters.Or}">
+                  <Binding Path="LocalChangesCount" Converter="{x:Static c:IntConverters.IsZero}"/>
+                  <Binding Source="{x:Static vm:Preferences.Instance}" Path="IsCompactToolbarIconSize" Converter="{x:Static BoolConverters.Not}"/>
+                </MultiBinding>
+              </Path.IsVisible>
+            </Path>
+            <Path
+                  Width="{Binding Source={x:Static vm:Preferences.Instance}, Path=ToolbarIconSize}"
+                  Height="{Binding Source={x:Static vm:Preferences.Instance}, Path=ToolbarIconSize}"
+                  Data="{StaticResource Icons.Changes}"
+                  Fill="{DynamicResource Brush.Accent}">
+              <Path.IsVisible>
+                <MultiBinding Converter="{x:Static BoolConverters.And}">
+                  <Binding Path="LocalChangesCount" Converter="{x:Static c:IntConverters.IsGreaterThanZero}"/>
+                  <Binding Source="{x:Static vm:Preferences.Instance}" Path="IsCompactToolbarIconSize"/>
+                </MultiBinding>
+              </Path.IsVisible>
+            </Path>
             <Border Height="14"
                     Margin="0,4,4,0" Padding="5,0"
                     CornerRadius="7"
                     HorizontalAlignment="Right" VerticalAlignment="Top"
-                    Background="{DynamicResource Brush.Accent}"
-                    IsVisible="{Binding LocalChangesCount, Mode=OneWay, Converter={x:Static c:IntConverters.IsGreaterThanZero}}">
+                    Background="{DynamicResource Brush.Accent}">
+              <Border.IsVisible>
+                <MultiBinding Converter="{x:Static BoolConverters.And}">
+                  <Binding Path="LocalChangesCount" Converter="{x:Static c:IntConverters.IsGreaterThanZero}"/>
+                  <Binding Source="{x:Static vm:Preferences.Instance}" Path="IsCompactToolbarIconSize" Converter="{x:Static BoolConverters.Not}"/>
+                </MultiBinding>
+              </Border.IsVisible>
               <TextBlock Text="{Binding LocalChangesCount, Mode=OneWay, Converter={x:Static c:IntConverters.ToBadgeWithLimit}}"
                          Foreground="White"
                          FontFamily="{DynamicResource Fonts.Monospace}"
@@ -87,9 +107,18 @@
                   Fill="DarkOrange"
                   IsVisible="{Binding InProgressContext, Converter={x:Static ObjectConverters.IsNotNull}}"/>
           </Grid>
-        </ListBoxItem>
+      </ToggleButton>
 
-        <ListBoxItem IsVisible="{Binding !IsBare}" ToolTip.Placement="Right">
+      <ToggleButton Grid.Row="3"
+                    Classes="toolbar_icon_button sidebar_navigation"
+                    Width="{Binding Source={x:Static vm:Preferences.Instance}, Path=ToolbarIconButtonSize}"
+                    Height="{Binding Source={x:Static vm:Preferences.Instance}, Path=ToolbarIconButtonSize}"
+                    IsVisible="{Binding !IsBare}"
+                    Margin="{Binding Source={x:Static vm:Preferences.Instance}, Path=ToolbarIconButtonMargin}"
+                    HorizontalAlignment="Center"
+                    IsChecked="{Binding IsStashesVisible, Mode=OneWay}"
+                    Click="OnSelectStashes"
+                    ToolTip.Placement="Right">
           <ToolTip.Tip>
             <TextBlock>
               <Run Text="{DynamicResource Text.Stashes}" Foreground="{DynamicResource Brush.FG1}"/>
@@ -98,30 +127,61 @@
             </TextBlock>
           </ToolTip.Tip>
           <Grid>
-            <Path Classes="icon" Data="{StaticResource Icons.Stashes}"/>
+            <Path
+                  Width="{Binding Source={x:Static vm:Preferences.Instance}, Path=ToolbarIconSize}"
+                  Height="{Binding Source={x:Static vm:Preferences.Instance}, Path=ToolbarIconSize}"
+                  Data="{StaticResource Icons.Stashes}"
+                  Fill="{DynamicResource Brush.FG1}">
+              <Path.IsVisible>
+                <MultiBinding Converter="{x:Static BoolConverters.Or}">
+                  <Binding Path="StashesCount" Converter="{x:Static c:IntConverters.IsZero}"/>
+                  <Binding Source="{x:Static vm:Preferences.Instance}" Path="IsCompactToolbarIconSize" Converter="{x:Static BoolConverters.Not}"/>
+                </MultiBinding>
+              </Path.IsVisible>
+            </Path>
+            <Path
+                  Width="{Binding Source={x:Static vm:Preferences.Instance}, Path=ToolbarIconSize}"
+                  Height="{Binding Source={x:Static vm:Preferences.Instance}, Path=ToolbarIconSize}"
+                  Data="{StaticResource Icons.Stashes}"
+                  Fill="{DynamicResource Brush.Accent}">
+              <Path.IsVisible>
+                <MultiBinding Converter="{x:Static BoolConverters.And}">
+                  <Binding Path="StashesCount" Converter="{x:Static c:IntConverters.IsGreaterThanZero}"/>
+                  <Binding Source="{x:Static vm:Preferences.Instance}" Path="IsCompactToolbarIconSize"/>
+                </MultiBinding>
+              </Path.IsVisible>
+            </Path>
             <Border Height="14"
                     Margin="0,4,4,0" Padding="5,0"
                     CornerRadius="7"
                     HorizontalAlignment="Right" VerticalAlignment="Top"
-                    Background="{DynamicResource Brush.Accent}"
-                    IsVisible="{Binding StashesCount, Mode=OneWay, Converter={x:Static c:IntConverters.IsGreaterThanZero}}">
+                    Background="{DynamicResource Brush.Accent}">
+              <Border.IsVisible>
+                <MultiBinding Converter="{x:Static BoolConverters.And}">
+                  <Binding Path="StashesCount" Converter="{x:Static c:IntConverters.IsGreaterThanZero}"/>
+                  <Binding Source="{x:Static vm:Preferences.Instance}" Path="IsCompactToolbarIconSize" Converter="{x:Static BoolConverters.Not}"/>
+                </MultiBinding>
+              </Border.IsVisible>
               <TextBlock Text="{Binding StashesCount, Mode=OneWay, Converter={x:Static c:IntConverters.ToBadgeWithLimit}}"
                          Foreground="White"
                          FontFamily="{DynamicResource Fonts.Monospace}"
                          FontSize="10"/>
             </Border>
           </Grid>
-        </ListBoxItem>
-      </ListBox>
+      </ToggleButton>
       
-      <Button Grid.Row="2"
-              Classes="icon_button"
-              Width="40" Height="40"
-              Margin="4,0"
+      <Button Grid.Row="5"
+              Classes="icon_button toolbar_icon_button"
+              Width="{Binding Source={x:Static vm:Preferences.Instance}, Path=ToolbarIconButtonSize}"
+              Height="{Binding Source={x:Static vm:Preferences.Instance}, Path=ToolbarIconButtonSize}"
+              HorizontalAlignment="Center"
+              Margin="{Binding Source={x:Static vm:Preferences.Instance}, Path=ToolbarIconButtonMargin}"
               Click="OnOpenConfigure"
               ToolTip.Tip="{DynamicResource Text.Repository.Configure}"
               ToolTip.Placement="Right">
-        <Path Width="18" Height="18" Data="{StaticResource Icons.Settings}"/>
+        <Path Width="{Binding Source={x:Static vm:Preferences.Instance}, Path=ToolbarIconSize}"
+              Height="{Binding Source={x:Static vm:Preferences.Instance}, Path=ToolbarIconSize}"
+              Data="{StaticResource Icons.Settings}"/>
       </Button>
     </Grid>
 

@@ -101,6 +101,30 @@ namespace SourceGit.Views
             }
         }
 
+        private void OnSelectDashboard(object sender, RoutedEventArgs e)
+        {
+            if (DataContext is ViewModels.Repository repo)
+                repo.SelectedViewIndex = 0;
+
+            e.Handled = true;
+        }
+
+        private void OnSelectWorkingCopy(object sender, RoutedEventArgs e)
+        {
+            if (DataContext is ViewModels.Repository repo)
+                repo.SelectedViewIndex = 1;
+
+            e.Handled = true;
+        }
+
+        private void OnSelectStashes(object sender, RoutedEventArgs e)
+        {
+            if (DataContext is ViewModels.Repository repo)
+                repo.SelectedViewIndex = 2;
+
+            e.Handled = true;
+        }
+
         private async void OnSkipInProgress(object sender, RoutedEventArgs e)
         {
             if (DataContext is ViewModels.Repository repo)
