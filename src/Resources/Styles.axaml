@@ -1334,6 +1334,33 @@
     </Style>
   </Style>
 
+  <Style Selector="Button.toolbar_icon_button, ToggleButton.toolbar_icon_button">
+    <Setter Property="Padding" Value="0"/>
+    <Setter Property="MinWidth" Value="0"/>
+    <Setter Property="MinHeight" Value="0"/>
+  </Style>
+  <Style Selector="Button.toolbar_icon_button /template/ ContentPresenter#PART_ContentPresenter, ToggleButton.toolbar_icon_button /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="Transparent"/>
+    <Setter Property="CornerRadius" Value="4"/>
+    <Setter Property="Opacity" Value="1"/>
+  </Style>
+  <Style Selector="Button.toolbar_icon_button:pointerover /template/ ContentPresenter#PART_ContentPresenter, ToggleButton.toolbar_icon_button:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="#18888888"/>
+  </Style>
+  <Style Selector="ToggleButton.toolbar_icon_button">
+    <Setter Property="Opacity" Value="1"/>
+  </Style>
+  <Style Selector="ToggleButton.sidebar_navigation /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="Transparent"/>
+    <Setter Property="CornerRadius" Value="4"/>
+  </Style>
+  <Style Selector="ToggleButton.sidebar_navigation:checked /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="{DynamicResource Brush.AccentHovered}"/>
+  </Style>
+  <Style Selector="ToggleButton.sidebar_navigation Path">
+    <Setter Property="Fill" Value="{DynamicResource Brush.FG1}"/>
+  </Style>
+
   <Style Selector="ToggleButton.toggle_untracked">
     <Setter Property="Margin" Value="0"/>
     <Setter Property="Padding" Value="0"/>
