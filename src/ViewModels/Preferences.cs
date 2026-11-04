@@ -5,6 +5,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 
 using Avalonia.Collections;
+using Avalonia.Controls;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace SourceGit.ViewModels
@@ -105,6 +106,54 @@ namespace SourceGit.ViewModels
             set => SetProperty(ref _editorTabWidth, value);
         }
 
+        public double ToolbarIconSize
+        {
+            get => _toolbarIconSize;
+            set
+            {
+                var size = value switch { 7 => 10.5, 10.5 => 10.5, 14 => 14.0, 16 => 16.0, 18 => 18.0, _ => 18.0 };
+                if (SetProperty(ref _toolbarIconSize, size))
+                {
+                    OnPropertyChanged(nameof(ToolbarIconSizeIndex));
+                    OnPropertyChanged(nameof(IsCompactToolbarIconSize));
+                    OnPropertyChanged(nameof(ToolbarIconButtonSize));
+                    OnPropertyChanged(nameof(ToolbarIconSpacing));
+                    OnPropertyChanged(nameof(ToolbarIconBarSize));
+                    OnPropertyChanged(nameof(SidebarIconBarWidth));
+                    OnPropertyChanged(nameof(ToolbarIconButtonMargin));
+                    OnPropertyChanged(nameof(ToolbarIconSeparatorMargin));
+                }
+            }
+        }
+
+        [JsonIgnore]
+        public int ToolbarIconSizeIndex
+        {
+            get => _toolbarIconSize switch { 10.5 => 0, 14 => 1, 16 => 2, _ => 3 };
+            set => ToolbarIconSize = value switch { 0 => 10.5, 1 => 14, 2 => 16, _ => 18 };
+        }
+
+        [JsonIgnore]
+        public bool IsCompactToolbarIconSize => ToolbarIconSize == 10.5;
+
+        [JsonIgnore]
+        public double ToolbarIconButtonSize => IsCompactToolbarIconSize ? 27 : ToolbarIconSize + 22;
+
+        [JsonIgnore]
+        public double ToolbarIconSpacing => ToolbarIconSize / 4.0;
+
+        [JsonIgnore]
+        public double ToolbarIconBarSize => ToolbarIconButtonSize + ToolbarIconSpacing * 2;
+
+        [JsonIgnore]
+        public GridLength SidebarIconBarWidth => new(ToolbarIconBarSize, GridUnitType.Pixel);
+
+        [JsonIgnore]
+        public Avalonia.Thickness ToolbarIconButtonMargin => new(ToolbarIconSpacing);
+
+        [JsonIgnore]
+        public Avalonia.Thickness ToolbarIconSeparatorMargin => new(ToolbarIconSpacing * 2, 0);
+
         public double Zoom
         {
             get => _zoom;
@@ -172,7 +221,17 @@ namespace SourceGit.ViewModels
         public bool UseFixedTabWidth
         {
             get => _useFixedTabWidth;
-            set => SetProperty(ref _useFixedTabWidth, value);
+            set
+            {
+                if (SetProperty(ref _useFixedTabWidth, value) && value)
+                    ShowTabIconOnly = false;
+            }
+        }
+
+        public bool ShowTabIconOnly
+        {
+            get => _showTabIconOnly;
+            set => SetProperty(ref _showTabIconOnly, value && !UseFixedTabWidth);
         }
 
         public bool UseAutoHideScrollBars
@@ -803,6 +862,8 @@ namespace SourceGit.ViewModels
         private int _maxHistoryCommits = 20000;
         private int _subjectGuideLength = 50;
         private bool _useFixedTabWidth = true;
+        private bool _showTabIconOnly = false;
+        private double _toolbarIconSize = 18;
         private bool _useAutoHideScrollBars = true;
         private bool _useGitHubStyleAvatar = true;
         private bool _useCompactBranchNamesInGraph = true;

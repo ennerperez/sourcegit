@@ -691,8 +691,14 @@
   <x:String x:Key="Text.Preferences.Appearance.MonospaceFont" xml:space="preserve">Monospace Font</x:String>
   <x:String x:Key="Text.Preferences.Appearance.Theme" xml:space="preserve">Theme</x:String>
   <x:String x:Key="Text.Preferences.Appearance.ThemeOverrides" xml:space="preserve">Theme Overrides</x:String>
+  <x:String x:Key="Text.Preferences.Appearance.ToolbarIconSize" xml:space="preserve">Toolbar Icon Size</x:String>
+  <x:String x:Key="Text.Preferences.Appearance.IconSize.Compact" xml:space="preserve">Compact</x:String>
+  <x:String x:Key="Text.Preferences.Appearance.IconSize.Small" xml:space="preserve">Small</x:String>
+  <x:String x:Key="Text.Preferences.Appearance.IconSize.Medium" xml:space="preserve">Medium</x:String>
+  <x:String x:Key="Text.Preferences.Appearance.IconSize.Large" xml:space="preserve">Large</x:String>
   <x:String x:Key="Text.Preferences.Appearance.UseAutoHideScrollBars" xml:space="preserve">Use auto-hide scrollbars</x:String>
   <x:String x:Key="Text.Preferences.Appearance.UseFixedTabWidth" xml:space="preserve">Use fixed tab width in titlebar</x:String>
+  <x:String x:Key="Text.Preferences.Appearance.ShowTabIconOnly" xml:space="preserve">Show tab icon only</x:String>
   <x:String x:Key="Text.Preferences.Appearance.UseNativeWindowFrame" xml:space="preserve">Use native window frame</x:String>
   <x:String x:Key="Text.Preferences.DiffMerge" xml:space="preserve">DIFF/MERGE TOOL</x:String>
   <x:String x:Key="Text.Preferences.DiffMerge.DiffArgs" xml:space="preserve">Diff Arguments</x:String>

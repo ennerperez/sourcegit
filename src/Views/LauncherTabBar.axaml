@@ -95,36 +95,39 @@
                         IsHitTestVisible="False"/>
 
                   <Grid Grid.Column="1"
-                        HorizontalAlignment="Center" VerticalAlignment="Center"
-                        ColumnDefinitions="Auto,*"
-                        IsHitTestVisible="False"
-                        IsVisible="{Binding Node.IsRepository}">
-                    <Ellipse Grid.Column="0"
-                             Width="8" Height="8"
-                             Margin="0,0,6,0"
-                             VerticalAlignment="Center"
-                             IsVisible="{Binding DirtyState, Converter={x:Static ObjectConverters.NotEqual}, ConverterParameter={x:Static m:DirtyState.None}}"
-                             Fill="{Binding DirtyState, Converter={x:Static c:DirtyStateConverters.ToBrush}}"/>
-
-                    <TextBlock Grid.Column="1"
+                        IsVisible="{Binding Source={x:Static vm:Preferences.Instance}, Path=!ShowTabIconOnly}"
+                        IsHitTestVisible="False">
+                    <Grid HorizontalAlignment="Center" VerticalAlignment="Center"
+                          ColumnDefinitions="Auto,*"
+                          IsHitTestVisible="False"
+                          IsVisible="{Binding Node.IsRepository}">
+                      <Ellipse Grid.Column="0"
+                               Width="8" Height="8"
+                               Margin="0,0,6,0"
                                VerticalAlignment="Center"
+                               IsVisible="{Binding DirtyState, Converter={x:Static ObjectConverters.NotEqual}, ConverterParameter={x:Static m:DirtyState.None}}"
+                               Fill="{Binding DirtyState, Converter={x:Static c:DirtyStateConverters.ToBrush}}"/>
+
+                      <TextBlock Grid.Column="1"
+                                 VerticalAlignment="Center"
+                                 FontSize="{Binding Source={x:Static vm:Preferences.Instance}, Path=DefaultFontSize, Converter={x:Static c:DoubleConverters.Decrease}}"
+                                 TextAlignment="Center"
+                                 Text="{Binding Node.Name}"
+                                 IsHitTestVisible="False"/>
+                    </Grid>
+
+                    <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Center"
                                FontSize="{Binding Source={x:Static vm:Preferences.Instance}, Path=DefaultFontSize, Converter={x:Static c:DoubleConverters.Decrease}}"
                                TextAlignment="Center"
-                               Text="{Binding Node.Name}"
+                               Text="{DynamicResource Text.PageTabBar.Welcome.Title}"
+                               IsVisible="{Binding !Node.IsRepository}"
                                IsHitTestVisible="False"/>
                   </Grid>
-
-                  <TextBlock Grid.Column="1"
-                             HorizontalAlignment="Stretch" VerticalAlignment="Center"
-                             FontSize="{Binding Source={x:Static vm:Preferences.Instance}, Path=DefaultFontSize, Converter={x:Static c:DoubleConverters.Decrease}}"
-                             TextAlignment="Center"
-                             Text="{DynamicResource Text.PageTabBar.Welcome.Title}"
-                             IsVisible="{Binding !Node.IsRepository}"
-                             IsHitTestVisible="False"/>
 
                   <Button Grid.Column="2"
                           Classes="icon_button"
                           Width="14" Height="12" Margin="12,0"
+                          IsVisible="{Binding Source={x:Static vm:Preferences.Instance}, Path=!ShowTabIconOnly}"
                           Click="OnCloseTab">
                     <ToolTip.Tip>
                       <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
